@@ -1,8 +1,8 @@
 const router = require('express').Router()
 const bcrypt = require('bcryptjs')
-const {addUser} = require("./model")
+const {addUser} = require("./users_model")
 const jwt = require('jsonwebtoken')
-const secret = require('../../../secret')
+const {JWT_SECRET} = require('../../../secret')
 const { validateRegInfo, usernameFree, userExists } = require('./auth_middleware')
 
 router.post("/register", validateRegInfo, usernameFree, async(req,res)=>{
@@ -27,12 +27,14 @@ router.post("/register", validateRegInfo, usernameFree, async(req,res)=>{
 })
 
 router.post("/login", userExists, async(req,res)=>{
-    const {user} = req
-    const{password} = req.body
+    
+    const hash = req.user.user_password
+    const {password} = req.body
+    
 try{
-    if(user && bcrypt.compareSync(password, user.password)){
-        const token = generateToken(user)
-        res.status(200).json({token, message: `welcome back ${user.user_username}`})
+    if(req.user && bcrypt.compareSync(password,hash)===true){
+        const token = generateToken(req.user)
+        res.status(200).json({token:token, message: `welcome back ${req.user.user_username}`})
     }
     else{
         res.status(403).json({message:'invalid credentials'})
@@ -57,7 +59,7 @@ const generateToken = (user) =>{
         expiresIn: '1d'
     }
 
-    return jwt.sign(payload,secret,options)
+    return jwt.sign(payload,JWT_SECRET,options)
 }
 
 module.exports = router

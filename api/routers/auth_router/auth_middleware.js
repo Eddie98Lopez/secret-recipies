@@ -1,14 +1,15 @@
 const db = require('../../data/db-config')
+const {getByFilter} = require('./users_model')
 
 //Middleware for registration validation to check if a username is already taken 
 const usernameFree = async (req,res,next) => {
-    const taken = await db('users').where({username:req.body.username})
-    if(!taken){
-        next()
-    }
-    else{
-        res.status(400).json({message:"please choose a different username"})
-    }
+   const user = await getByFilter({user_username: req.body.username})
+   if(!user){
+       next()
+   }
+   else{
+       res.status(400).json({message:"please choose different username"})
+   }
 }
 
 //validates registration info
@@ -25,7 +26,9 @@ const validateRegInfo = (req,res,next) => {
 
 //checks if the user exists for login
 const userExists = async (req,res,next) => {
-    const user = await db('users').where({username: req.body.username})
+    const user = await db('users').where({user_username:req.body.username}).first()
+   try{
+    //console.log(user)
 
     if(user){
         req.user = user
@@ -34,6 +37,10 @@ const userExists = async (req,res,next) => {
     else{
         res.status(403).json({message: "invalid credentials"})
     }
+   }
+   catch(err){
+       res.status(500).json('something happened')
+   }
 
 }
 
