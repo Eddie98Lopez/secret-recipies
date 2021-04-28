@@ -1,7 +1,7 @@
 const db = require('../../data/db-config')
 
 const getById = (id) =>{
-    return db('users').where('id', id).first()
+    return db('users').where('id', id).fir
 }
 
 const addUser = async (user) => {
