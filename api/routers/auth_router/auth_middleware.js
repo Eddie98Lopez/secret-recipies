@@ -1,4 +1,4 @@
-const db = require('../../data/db-config')
+//const db = require('../../data/db-config')
 const {getByFilter} = require('./users_model')
 
 //Middleware for registration validation to check if a username is already taken 
@@ -26,7 +26,7 @@ const validateRegInfo = (req,res,next) => {
 
 //checks if the user exists for login
 const userExists = async (req,res,next) => {
-    const user = await db('users').where({user_username:req.body.username}).first()
+    const user = await getByFilter({user_username:req.body.username})
    try{
     //console.log(user)
 
