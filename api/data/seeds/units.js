@@ -1,10 +1,10 @@
 
 exports.seed = function(knex) {
   // Deletes ALL existing entries
-  return knex('table_name').del()
+  return knex('units').del()
     .then(function () {
       // Inserts seed entries
-      return knex('table_name').insert([
+      return knex('units').insert([
         {unit_name: 'oz'},
         {unit_name: 'tsp'},
         {unit_name: 'tbsp'},

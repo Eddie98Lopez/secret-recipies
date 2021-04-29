@@ -1,27 +1,17 @@
 const db = require('../../data/db-config')
 
 
-const getByFilter = (table,filter) => {
-    return db(table).where(filter).first()
-}
 
-const getAll = (table) =>{
-    return db(table)
-}
 
-const getById = (table,id) => {
-    const str = table.substring(0, str.length - 1);
-    return db(table).where(`${str}_id`,id).first()
-}
+const addRecipe = async(newData) => {
 
-const addNew = async (table, newData) =>{
-    const str = table.substring(0, str.length - 1);
-    const [id]= await db(table).insert(newData).returning(`${str}_id`)
-    return getById(table,id)
+    const [id] = await db('recipes').insert(newData).returning("recipe_id")
+    return db('recipes').where({recipe_id: id}).first()
+
 }
 
 const getRecipe = async (id) => {
-    const recipe = await getById('recipes',id)
+    const recipe = await db('recipes').where('recipe_id',id).first()
     const ingredients = await db('ingredients as ing')
         .join('measurements as m')
         .join('units as u')
@@ -38,6 +28,6 @@ const getRecipe = async (id) => {
 
 
 module.exports = {
-    getByFilter,getAll,addNew, getRecipe
+     getRecipe, addRecipe
 }
 
