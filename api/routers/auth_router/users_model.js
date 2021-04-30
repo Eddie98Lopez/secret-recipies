@@ -1,13 +1,12 @@
 const db = require('../../data/db-config')
 
 const getById = (id) =>{
-    return db('users').where('id', id).first()
+    return db('users').select('user_id','user_username','user_name').where('user_id', id).first()
 }
 
 const addUser = async (user) => {
-    await db('users').insert(user)
-    
-    return db('users').select('user_username','user_id', 'user_phone', 'user_name').where({user_username:user.user_username}).first()
+    const [id] = await db('users').insert(user).returning("user_id")
+    return getById(id)
 }
 
 const getByFilter = (filter) =>{

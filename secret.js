@@ -1,4 +1,4 @@
 
 module.exports = {
-    JWT_SECRET : 'keepitsecret',
+    JWT_SECRET : process.env.JWT_SECRET || 'keepitsecret',
 }
