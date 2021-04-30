@@ -1,6 +1,6 @@
 const { checkAllFields } = require('./recipe_middleware')
 //const {getRecipe, addRecipe } = require('./recipe_model')
-const {getIngByFilter, removeRecipe,updateRecipe,addIng, getMeasBF, addMeas, addR2I, addRecipe, getRecipeIngs, getRecipeById, getRecipes, removeRecipeIngs} = require('../../models')
+const {getIngByFilter, removeRecipe,updateRecipe,addIng, getMeasBF, addMeas, recipeAndIngs,addR2I, addRecipe, getRecipeIngs, getRecipeById, getRecipes, removeRecipeIngs} = require('../../models')
 
 const router = require('express').Router()
 
@@ -79,7 +79,7 @@ router.get('/:id', async(req,res)=>{
         const recipe = await getRecipeById(recipeId)
         const recipeIngs = await getRecipeIngs(recipeId)
 
-        res.status(200).json({recipe,ingredients: recipeIngs})
+        res.status(200).json({recipe,recipeIngs})
 
     }
     catch(err){
@@ -87,20 +87,22 @@ router.get('/:id', async(req,res)=>{
     }
 })
 
-router.put('/:id',checkAllFields,async(req,res)=>{
-    const id = req.params.id
+router.put('/:id', checkAllFields,async(req,res)=>{
+    const recipeId = req.params.id
+
     try{
-        await removeRecipeIngs(id)
-        await updateRecipe(id,req.recipe)
+        await removeRecipeIngs(recipeId)
+        await updateRecipe(recipeId,req.recipe)
+       
+        
 
         req.ingredients.forEach(async (ing) => {
-
           
             const newR2I = {
                 measurement_id: '',
                 unit_id: ing.unit_id,
                 ingredient_id:'',
-                recipe_id: id
+                recipe_id: recipeId
             }
 
             const ingredient = await getIngByFilter({ingredient_name:ing.ingredient_name})
@@ -123,15 +125,25 @@ router.put('/:id',checkAllFields,async(req,res)=>{
                 }
 
 
-                const newCombo = await addR2I(newR2I)
-                console.log(newCombo, `new combo was created `)
+                await addR2I(newR2I)
+                
 
         })
 
-        const recipe = getRecipeById(id)
-        const ingredients = getRecipeIngs(id)
+        
 
-        res.status(200).json({...recipe,ingredients})
+        //const recipe = await getRecipeById(recipeId)
+
+
+
+
+        const ingredients = await recipeAndIngs(recipeId)
+        //returning = {...returning, ingredients}
+
+        //console.log(recipe)
+        console.log(ingredients)
+
+       res.status(200).json(ingredients)
 
     }
     catch(err){

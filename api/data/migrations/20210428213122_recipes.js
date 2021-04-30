@@ -38,10 +38,10 @@ exports.up = async function(knex) {
         })
         .createTable("recipe2ingredients", tbl =>{
             tbl.increments('r2i_id')
-            tbl.integer('recipe_id').unsigned().notNullable().references('recipe_id').inTable('recipes').onDelete('RESTRICT')
-            tbl.integer('measurement_id').unsigned().notNullable().references('measurement_id').inTable('measurements').onDelete('RESTRICT')
-            tbl.integer('unit_id').unsigned().notNullable().references('unit_id').inTable('units').onDelete('RESTRICT')
-            tbl.integer('ingredient_id').unsigned().notNullable().references('ingredient_id').inTable('ingredients').onDelete('RESTRICT')
+            tbl.integer('recipe_id').unsigned().notNullable().references('recipe_id').inTable('recipes').onDelete('CASCADE')
+            tbl.integer('measurement_id').unsigned().notNullable().references('measurement_id').inTable('measurements').onDelete('CASCADE')
+            tbl.integer('unit_id').unsigned().notNullable().references('unit_id').inTable('units').onDelete('CASCADE')
+            tbl.integer('ingredient_id').unsigned().notNullable().references('ingredient_id').inTable('ingredients').onDelete('CASCADE')
         })
   
 };

@@ -30,7 +30,7 @@ const getRecipeIngs = (id) => {
         .join('measurements as ms', 'ms.measurement_id','ri.measurement_id')
         .join('units as u', 'u.unit_id', 'ri.unit_id')
         .join('ingredients as ing', 'ing.ingredient_id', 'ri.ingredient_id')
-        .select('r2i_id','ri.recipe_id','ms.measurement_amount', 'u.unit_name', 'ing.ingredient_name')
+        .select('ms.measurement_amount', 'u.unit_name', 'ing.ingredient_name')
         .where('ri.recipe_id', id) 
 
 
@@ -40,6 +40,7 @@ const getRecipeIngs = (id) => {
 const removeRecipeIngs = async(id) => {
     const deletedRecIngs = getRecipeIngs(id)
     await db('recipe2ingredients').where('recipe_id', id).delete()
+    console.log('r2i combos deleted')
    return deletedRecIngs
 }
 
