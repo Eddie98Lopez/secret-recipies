@@ -17,7 +17,7 @@ const addR2I = async (newData) =>{
     return db('recipe2ingredients').where('r2i_id',id).first()
 }
 
-const getRecipeIngs = (id) => {
+const getRecipeIngs = async (id) => {
 
     /*  select recipe_id, measurement_amount,unit_name,ingredient_name from recipe2ingredients as r2i
         join units on units.unit_id = r2i.unit_id 
@@ -25,8 +25,7 @@ const getRecipeIngs = (id) => {
         join ingredients as i on i.ingredient_id = r2i.ingredient_id
         where r2i.recipe_id = 4 */
 
-
-    return db('recipe2ingredients as ri')
+    return await db('recipe2ingredients as ri')
         .join('measurements as ms', 'ms.measurement_id','ri.measurement_id')
         .join('units as u', 'u.unit_id', 'ri.unit_id')
         .join('ingredients as ing', 'ing.ingredient_id', 'ri.ingredient_id')

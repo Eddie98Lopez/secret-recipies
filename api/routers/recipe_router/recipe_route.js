@@ -1,6 +1,6 @@
 const { checkAllFields } = require('./recipe_middleware')
 //const {getRecipe, addRecipe } = require('./recipe_model')
-const {getIngByFilter, removeRecipe,updateRecipe,addIng, getMeasBF, addMeas, recipeAndIngs,addR2I, addRecipe, getRecipeIngs, getRecipeById, getRecipes, removeRecipeIngs} = require('../../models')
+const {getIngByFilter, removeRecipe,updateRecipe,addIng, getMeasBF, addMeas,addR2I, addRecipe, getRecipeIngs, getRecipeById, getRecipes, removeRecipeIngs} = require('../../models')
 
 const router = require('express').Router()
 
@@ -92,7 +92,7 @@ router.put('/:id', checkAllFields,async(req,res)=>{
 
     try{
         await removeRecipeIngs(recipeId)
-        await updateRecipe(recipeId,req.recipe)
+        req.updated = await updateRecipe(recipeId,req.recipe)
        
         
 
@@ -137,13 +137,15 @@ router.put('/:id', checkAllFields,async(req,res)=>{
 
 
 
-        const ingredients = await recipeAndIngs(recipeId)
+       // const boops = getRecipeIngs(req.updated.recipe_id)
+            .then(res=>console.log(res))
+        
         //returning = {...returning, ingredients}
 
-        //console.log(recipe)
-        console.log(ingredients)
+        //console.log(boops)
+        
 
-       res.status(200).json(ingredients)
+       res.status(200).json(req.updated)
 
     }
     catch(err){
