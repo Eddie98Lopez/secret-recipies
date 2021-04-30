@@ -3,14 +3,14 @@ const {getIngByFilter,getAllIng, getIngById, addIng} = require('./ingredients_mo
 
 const {getMeasBF,getAllMeas, getMeasById, addMeas} = require('./measurements_model')
 
-const {getRecipeBF,getRecipes, getRecipeById, addRecipe, getRecipeIngs} = require('./recipe_model')
+const {getRecipeBF,getRecipes, getRecipeById, addRecipe,updateRecipe,removeRecipe} = require('./recipe_model')
 
-const {getR2Ibf,getAllR2I, getR2IById, addR2I} = require('./r2i_model')
+const {getR2Ibf,getAllR2I, getR2IById, addR2I,getRecipeIngs, removeRecipeIngs} = require('./r2i_model')
 
  module.exports = {
     getIngByFilter,getAllIng, getIngById, addIng,
     getMeasBF,getAllMeas, getMeasById, addMeas,
-    getRecipeBF,getRecipes, getRecipeById, addRecipe, getRecipeIngs,
+    getRecipeBF,getRecipes, getRecipeById, addRecipe, getRecipeIngs, removeRecipeIngs, updateRecipe,removeRecipe,
     getR2Ibf,getAllR2I, getR2IById, addR2I
  }
  

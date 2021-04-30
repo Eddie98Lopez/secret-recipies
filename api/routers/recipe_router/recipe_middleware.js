@@ -10,9 +10,7 @@ const checkAllFields = (req,res,next)=>{
     else{
         req.recipe = {recipe_title,recipe_source,recipe_instructions,category_id,user_id}
         req.ingredients = ingredients
-        console.log(req.recipe)
-        console.log(req.ingredients)
-        console.log('it passed validation')
+        
         next()
     }
     
