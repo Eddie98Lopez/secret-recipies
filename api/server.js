@@ -5,7 +5,7 @@ const authRouter = require("./routers/auth_router/auth_router")
 const recipeRouter = require('./routers/recipe_router/recipe_route')
 const unitsRouter = require('./routers/units_router/units_route')
 const categoriesRouter = require('./routers/categories_router/categories_route')
-const {restricted} = require('./restricted')
+const restricted = require('./restricted')
 
 const server = express()
 server.use(express.json())
