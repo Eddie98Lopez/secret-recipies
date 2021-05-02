@@ -61,9 +61,10 @@ router.post('/',checkAllFields,async(req,res)=>{
 
 })
 
-router.get('/', async(req,res)=>{
+router.get('/user/:id', async(req,res)=>{
+    const id = req.params.id
     try{
-        const recipes = await getRecipes()
+        const recipes = await getRecipes(id)
         res.status(200).json(recipes)
     }
     catch(err){
@@ -130,19 +131,7 @@ router.put('/:id', checkAllFields,async(req,res)=>{
 
         })
 
-        
 
-        //const recipe = await getRecipeById(recipeId)
-
-
-
-
-       // const boops = getRecipeIngs(req.updated.recipe_id)
-            .then(res=>console.log(res))
-        
-        //returning = {...returning, ingredients}
-
-        //console.log(boops)
         
 
        res.status(200).json(req.updated)

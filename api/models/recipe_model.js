@@ -4,8 +4,8 @@ const getRecipeBF = (filter) => {
     return db('recipes').where(filter).first()
 }
 
-const getRecipes = () =>{
-    return db('recipes')
+const getRecipes = (userId) =>{
+    return db('recipes').where('user_id',userId)
 }
 
 const getRecipeById = (id) => {
