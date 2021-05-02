@@ -6,14 +6,14 @@ const {JWT_SECRET} = require('../../../secret')
 const { validateRegInfo, usernameFree, userExists } = require('./auth_middleware')
 
 router.post("/register", validateRegInfo, usernameFree, async(req,res)=>{
-    const {username, password, phone, name} = req.body
+    const {username, password, email, name} = req.body
 
     const hash = bcrypt.hashSync(password, 10)
     const newUser = {
          user_username:username,
          user_password:hash,
          user_name: name,
-         user_phone: phone
+         user_email: email
         }
 
     try{

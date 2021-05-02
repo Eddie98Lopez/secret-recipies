@@ -14,9 +14,9 @@ const usernameFree = async (req,res,next) => {
 
 //validates registration info
 const validateRegInfo = (req,res,next) => {
-    const {username,password,phone,name} = req.body
+    const {username,password,email,name} = req.body
 
-    if(!username || !password || !phone || !name){
+    if(!username || !password || !email || !name){
         res.status(400).json({message: "all fields are required"})
     }
     else{

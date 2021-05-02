@@ -5,7 +5,7 @@ exports.up = async (knex) => {
         users.string('user_username', 200).notNullable().unique()
         users.string('user_password', 200).notNullable()
         users.string('user_name', 200).notNullable()
-        users.string('user_phone', 320).notNullable()
+        users.string('user_email', 320).notNullable()
         users.timestamps(false, true)
       })
   }
