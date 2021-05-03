@@ -34,7 +34,12 @@ router.post("/login", userExists, async(req,res)=>{
 try{
     if(req.user && bcrypt.compareSync(password,hash)===true){
         const token = generateToken(req.user)
-        res.status(200).json({token:token, message: `welcome back ${req.user.user_username}`})
+        const user = {
+            id: req.user.user_id,
+            username: req.user.user_username,
+            name:req.user.user_name
+        }
+        res.status(200).json({token:token, message: `welcome back ${req.user.user_username}`,user})
     }
     else{
         res.status(403).json({message:'invalid credentials'})
